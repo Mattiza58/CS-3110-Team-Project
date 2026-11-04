@@ -6,6 +6,7 @@ Team Project for CS 3110
 Matthew Izaguirre — mai62, 
 Rayhan Rinzan — rmr326,
 Ruoshui Yin - ry268,
+Ava Tolentino - agt56
 
 # Project Overview
 This repository contains our final team project for Cornell University's CS 3110: Data Structures and Functional Programming.
