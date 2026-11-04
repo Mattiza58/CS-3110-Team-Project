@@ -4,6 +4,7 @@ Team Project for CS 3110
 # Team Members:
 
 Matthew Izaguirre — mai62, 
+Rayhan Rinzan — rmr326,
 
 # Project Overview
 This repository contains our final team project for Cornell University's CS 3110: Data Structures and Functional Programming.
