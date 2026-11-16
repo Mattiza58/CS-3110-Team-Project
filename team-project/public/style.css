@@ -1,0 +1,229 @@
+/* General layout */
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  background: #142723;
+  color: white;
+  font-family: Arial, sans-serif;
+}
+
+.app {
+  max-width: 1000px;
+  margin: 0 auto;
+  padding: 24px;
+}
+
+.header {
+  text-align: center;
+  margin-bottom: 24px;
+}
+
+.header h1 {
+  font-size: 36px;
+  margin-bottom: 8px;
+}
+
+.header p {
+  color: #b9d0c5;
+}
+
+.scoreboard {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 12px;
+  padding: 18px;
+  background: #233b35;
+  border-radius: 10px;
+  margin-bottom: 20px;
+}
+
+.score-item {
+  text-align: center;
+}
+
+.score-item span {
+  display: block;
+  color: #c6d8cf;
+  margin-bottom: 8px;
+}
+
+.score-item strong {
+  font-size: 32px;
+}
+
+
+.field {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 16 / 7;
+  min-height: 220px;
+  overflow: hidden;
+
+  background: repeating-linear-gradient(
+    90deg,
+    #368452 0%,
+    #368452 12.5%,
+    #408f5c 12.5%,
+    #408f5c 25%
+  );
+
+  border: 4px solid #e5f2e9;
+  border-radius: 8px;
+}
+
+.center-line {
+  position: absolute;
+  left: 50%;
+  top: 0;
+  width: 2px;
+  height: 100%;
+  background: white;
+}
+
+.center-circle {
+  position: absolute;
+  width: 100px;
+  height: 100px;
+  border: 2px solid white;
+  border-radius: 50%;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+}
+
+.goal {
+  position: absolute;
+  top: 35%;
+  width: 20px;
+  height: 30%;
+  border: 3px solid white;
+}
+
+.goal-left {
+  left: 0;
+  border-left: none;
+}
+
+.goal-right {
+  right: 0;
+  border-right: none;
+}
+
+.player {
+  position: absolute;
+  bottom: 12%;
+  width: 36px;
+  height: 52px;
+  border: 2px solid white;
+  border-radius: 7px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: bold;
+}
+
+.player-one {
+  left: 25%;
+  background: #65b3ff;
+}
+
+.player-two {
+  left: 70%;
+  background: #ffae5e;
+}
+
+.ball {
+  position: absolute;
+  left: 50%;
+  bottom: 13%;
+  width: 22px;
+  height: 22px;
+
+  background: white;
+  border: 2px solid #333;
+  border-radius: 50%;
+  transform: translateX(-50%);
+}
+
+/* Controls */
+.controls {
+  margin-top: 24px;
+}
+
+.controls h2 {
+  text-align: center;
+}
+
+.control-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 16px;
+}
+
+.control-card {
+  padding: 16px;
+  background: #233b35;
+  border-radius: 8px;
+}
+
+.control-card h3 {
+  margin-top: 0;
+}
+
+.control-card p {
+  margin-bottom: 0;
+}
+
+/* Interface testing */
+.ui-test {
+  text-align: center;
+  margin-top: 24px;
+}
+
+button {
+  padding: 12px 20px;
+  background: #65b3ff;
+  color: #10221e;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  font-weight: bold;
+}
+
+button:hover {
+  background: #92ccff;
+}
+
+button:focus-visible {
+  outline: 3px solid white;
+  outline-offset: 3px;
+}
+
+#status {
+  color: #c6d8cf;
+}
+
+.hint {
+  text-align: center;
+  color: #a9c9b8;
+  font-size: 14px;
+}
+
+@media (max-width: 600px) {
+  .app {
+    padding: 12px;
+  }
+
+  .control-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .player {
+    width: 28px;
+    height: 40px;
+  }
+}
