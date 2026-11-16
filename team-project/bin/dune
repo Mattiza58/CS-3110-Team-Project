@@ -1,4 +1,5 @@
 (executable
  (public_name team-project)
  (name main)
- (libraries team_project))
+ (libraries team_project js_of_ocaml)
+ (preprocess (pps js_of_ocaml-ppx)))
