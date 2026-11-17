@@ -1,0 +1,8 @@
+lib: [
+  "_build/install/default/lib/team-project/META"
+  "_build/install/default/lib/team-project/dune-package"
+  "_build/install/default/lib/team-project/opam"
+]
+bin: [
+  "_build/install/default/bin/team-project"
+]

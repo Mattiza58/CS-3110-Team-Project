@@ -4,22 +4,51 @@
   <meta charset="UTF-8">
   <meta name="viewport"
         content="width=device-width, initial-scale=1.0">
+
   <title>Caml League</title>
+
+  <link rel="stylesheet" href="./style.css">
   <script defer src="../_build/default/web/main.bc.js"></script>
 </head>
 
 <body>
-  <h1>Caml League</h1>
-  <h2>Two-Player Soccer Game</h2>
+  <main class="app">
 
-  <p id="status">Waiting for OCaml...</p>
+    <!-- Game title -->
+    <header class="header">
+      <h1>Caml League</h1>
+      <p>Two-Player Soccer Game</p>
+    </header>
 
-  <div id="game-root">
-    <!-- Game rendering will be added here. -->
-  </div>
 
-  <h3>Controls</h3>
-  <p>Player 1: WASD</p>
-  <p>Player 2: Arrow keys</p>
+    <!-- Game  area -->
+    <section class="game-section">
+      <div id="game-root" class="field">
+
+        <!-- Temporary field preview -->
+        <div class="center-line"></div>
+        <div class="center-circle"></div>
+
+        <div class="goal goal-left"></div>
+        <div class="goal goal-right"></div>
+
+        <div id="player1" class="player player-one">
+          P1
+        </div>
+
+        <div id="player2" class="player player-two">
+          P2
+        </div>
+
+        <div id="ball" class="ball"></div>
+
+      </div>
+
+      <p class="hint">
+        Static preview — gameplay coming soon
+      </p>
+    </section>
+
+  </main>
 </body>
 </html>

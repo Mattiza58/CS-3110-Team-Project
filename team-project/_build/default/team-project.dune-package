@@ -1,0 +1,4 @@
+(lang dune 3.24)
+(name team-project)
+(sections (lib .) (bin ../../bin))
+(files (lib (META dune-package opam)) (bin (team-project)))
