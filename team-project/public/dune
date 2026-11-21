@@ -1,0 +1,9 @@
+(rule
+ (target main.js)
+ (deps ../bin/main.bc.js)
+ (action (copy %{deps} %{target})))
+
+(rule
+ (target index.html)
+ (deps index.template.html main.js style.css)
+ (action (copy index.template.html %{target})))

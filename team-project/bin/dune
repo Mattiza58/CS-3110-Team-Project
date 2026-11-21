@@ -1,5 +1,6 @@
 (executable
- (public_name team-project)
+ ; (public_name team-project)
  (name main)
- (libraries team_project js_of_ocaml)
- (preprocess (pps js_of_ocaml-ppx)))
+ (modes js)
+ (libraries team_project elm_playground elm_playground_web js_of_ocaml js_of_ocaml-lwt lwt)
+ (preprocess (pps js_of_ocaml-ppx lwt_ppx)))
