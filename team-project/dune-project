@@ -17,6 +17,7 @@
 
 (package
  (name team-project)
+ (allow_empty)
  (synopsis "A short synopsis")
  (description "A longer description")
  (depends ocaml)
