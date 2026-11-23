@@ -1,6 +1,11 @@
 
 open OUnit2
 
+(* to run test suite, run "dune runtest" from team-project directory *)
+
+module Ball = Team_project.Ball
+module Collision = Team_project.Collision
+
 (* Player Movement Tests (Not Exhausive) *)
 
 let player_tests =
@@ -66,28 +71,111 @@ let ball_tests =
 
 (* Collision Tests*)
 
+let test_overlap _ =
+(* choose ball + player positions; ball is at x = 30 with default radius 20
+    meaning its left edge is at x = 10; this should overlap with player, who
+    is centered at x = 0, with a hitbox spanning from x = -18 to x = 18. *)
+  let ball : Ball.t =
+    { x = 30.; y = 0.; vx = 0.; vy = 0. }
+  in
+
+(* call function being tested; pass ball and player positions into touches_player *)
+  let actual =
+    Collision.touches_player
+      ~ball
+      ~player_x:0.
+      ~player_y:0.
+  in
+
+(* compare the result with desired result (true) *)
+  assert_equal
+    ~printer:string_of_bool
+    true
+    actual
+
+
 let collision_tests =
   "Collision detection" >::: [
 
-    "body collision" >:: (fun _ ->
-      (* TODO: Check that collision is detected when the ball overlaps the player's body. *)
-      skip_if true "TODO"
-    );
+    "body_overlap" >:: (fun _ ->
+        (* choose ball + player positions; ball is at x = 30 with default radius 20
+        meaning its left edge is at x = 10; this should overlap with player, who
+        is centered at x = 0, with a hitbox spanning from x = -18 to x = 18. *)
+        let ball : Ball.t =
+          { x = 30.; y = 0.; vx = 0.; vy = 0. }
+        in
+        (* call function being tested; pass ball and player positions into touches_player *)
+        let actual =
+          Collision.touches_player
+          ~ball
+          ~player_x:0.
+          ~player_y:0.
+        in
 
-    "head collision" >:: (fun _ ->
-      (* TODO: Check that collision is detected when the ball touches the player's head. *)
-      skip_if true "TODO"
+        (* compare the result with desired result (true) *)
+        assert_equal
+          ~printer:string_of_bool
+          true
+          actual 
+      
+      );
+
+      
+    "head_collision" >:: (fun _ ->
+      (* this test follows the same format as body_overlap, with the only
+      difference being ball coordinates to test if head collisions register *)
+        let ball : Ball.t = 
+          { x = 0.; y = 75.; vx = 0.; vy = 0. }
+        in
+
+        let actual = 
+          Collision.touches_player
+          ~ball
+          ~player_x:0.
+          ~player_y:0.
+        in
+
+        assert_equal
+          ~printer:string_of_bool
+          true
+          actual
+
     );
 
     "boundary touching" >:: (fun _ ->
-      (* TODO: Check that collision is detected when the ball just touches the player's edge. *)
-      skip_if true "TODO"
+      (* this test follows the same format as body_overlap and head_collision,
+       with the only difference being ball coordinates to test collision
+       registers when ball is tangent to player hitbox *)
+        let ball : Ball.t = 
+          { x = 38.; y = 0.; vx = 0.; vy = 0. }
+        in
+
+        let actual = 
+          Collision.touches_player
+          ~ball
+          ~player_x:0.
+          ~player_y:0.
+        in
+
+        assert_equal
+          ~printer:string_of_bool
+          true
+          actual
+
     );
 
 
     "collision response" >:: (fun _ ->
-      (* TODO: Check that the ball moves away from the player after a collision. *)
-      skip_if true "TODO"
+      (* simple test to make sure ball is moving from kick function when
+      collision occurs *)
+      let ball : Ball.t =
+        { x = 30.; y = 0.; vx = 0.; vy = 0. }
+      in
+      
+      let actual = Ball.kick ~player_x:0. ~player_vx:0. ball in
+
+      assert_bool "ball position shifts right" (actual.x > ball.x);
+      assert_bool "ball velocity is to the right" (actual.vx > 0.)
     );
   ]
 
@@ -96,6 +184,7 @@ let suite =
     player_tests;
     ball_tests;
     collision_tests;
+    (* this is where other testing categories go *)
   ]
 
 let () = run_test_tt_main suite
