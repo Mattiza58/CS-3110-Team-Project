@@ -166,8 +166,16 @@ let collision_tests =
 
 
     "collision response" >:: (fun _ ->
-      (* TODO: Check that the ball moves away from the player after a collision. *)
-      skip_if true "TODO"
+      (* simple test to make sure ball is moving from kick function when
+      collision occurs *)
+      let ball : Ball.t =
+        { x = 30.; y = 0.; vx = 0.; vy = 0. }
+      in
+      
+      let actual = Ball.kick ~player_x:0. ~player_vx:0. ball in
+
+      assert_bool "ball position shifts right" (actual.x > ball.x);
+      assert_bool "ball velocity is to the right" (actual.vx > 0.)
     );
   ]
 
