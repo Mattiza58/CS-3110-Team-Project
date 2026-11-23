@@ -121,7 +121,7 @@ let collision_tests =
       );
 
       
-    "head collision" >:: (fun _ ->
+    "head_collision" >:: (fun _ ->
       (* this test follows the same format as body_overlap, with the only
       difference being ball coordinates to test if head collisions register *)
         let ball : Ball.t = 
@@ -143,8 +143,25 @@ let collision_tests =
     );
 
     "boundary touching" >:: (fun _ ->
-      (* TODO: Check that collision is detected when the ball just touches the player's edge. *)
-      skip_if true "TODO"
+      (* this test follows the same format as body_overlap and head_collision,
+       with the only difference being ball coordinates to test collision
+       registers when ball is tangent to player hitbox *)
+        let ball : Ball.t = 
+          { x = 38.; y = 0.; vx = 0.; vy = 0. }
+        in
+
+        let actual = 
+          Collision.touches_player
+          ~ball
+          ~player_x:0.
+          ~player_y:0.
+        in
+
+        assert_equal
+          ~printer:string_of_bool
+          true
+          actual
+
     );
 
 
