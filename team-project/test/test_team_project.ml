@@ -5,6 +5,12 @@ let assert_float label expected actual =
   assert_equal ~msg:label ~cmp:(fun a b -> abs_float (a -. b) < 1e-9)
     ~printer:(Printf.sprintf "%.12g") expected actual
 
+(* to run test suite, run "dune runtest" from team-project directory *)
+
+module Ball = Team_project.Ball
+module Collision = Team_project.Collision
+
+
 let assert_vertical ~y ~vy ~jump_status (state : Player.vertical) =
   assert_float "player y" y state.y;
   assert_float "player vy" vy state.vy;
@@ -13,6 +19,8 @@ let assert_vertical ~y ~vy ~jump_status (state : Player.vertical) =
 
 let horizontal_test (name, x, direction, expected) =
   name >:: fun _ -> assert_float "player x" expected (Player.move_x x direction)
+  
+(* Player Movement Tests *)
 
 let player_tests =
   "Player movement" >::: [
@@ -167,33 +175,116 @@ let ball_tests =
       |> assert_ball ~x:28.1 ~y:25. ~vx:8. ~vy:3.);
   ]
 
-
 (* Collision Tests*)
+
+let test_overlap _ =
+(* choose ball + player positions; ball is at x = 30 with default radius 20
+    meaning its left edge is at x = 10; this should overlap with player, who
+    is centered at x = 0, with a hitbox spanning from x = -18 to x = 18. *)
+  let ball : Ball.t =
+    { x = 30.; y = 0.; vx = 0.; vy = 0. }
+  in
+
+(* call function being tested; pass ball and player positions into touches_player *)
+  let actual =
+    Collision.touches_player
+      ~ball
+      ~player_x:0.
+      ~player_y:0.
+  in
+
+(* compare the result with desired result (true) *)
+  assert_equal
+    ~printer:string_of_bool
+    true
+    actual
+
 
 let collision_tests =
   "Collision detection" >::: [
 
-    "body collision" >:: (fun _ ->
-      (* TODO: Check that collision is detected when the ball overlaps the player's body. *)
-      skip_if true "TODO"
-    );
+    "body_overlap" >:: (fun _ ->
+        (* choose ball + player positions; ball is at x = 30 with default radius 20
+        meaning its left edge is at x = 10; this should overlap with player, who
+        is centered at x = 0, with a hitbox spanning from x = -18 to x = 18. *)
+        let ball : Ball.t =
+          { x = 30.; y = 0.; vx = 0.; vy = 0. }
+        in
+        (* call function being tested; pass ball and player positions into touches_player *)
+        let actual =
+          Collision.touches_player
+          ~ball
+          ~player_x:0.
+          ~player_y:0.
+        in
 
-    "head collision" >:: (fun _ ->
-      (* TODO: Check that collision is detected when the ball touches the player's head. *)
-      skip_if true "TODO"
+        (* compare the result with desired result (true) *)
+        assert_equal
+          ~printer:string_of_bool
+          true
+          actual 
+      
+      );
+
+      
+    "head_collision" >:: (fun _ ->
+      (* this test follows the same format as body_overlap, with the only
+      difference being ball coordinates to test if head collisions register *)
+        let ball : Ball.t = 
+          { x = 0.; y = 75.; vx = 0.; vy = 0. }
+        in
+
+        let actual = 
+          Collision.touches_player
+          ~ball
+          ~player_x:0.
+          ~player_y:0.
+        in
+
+        assert_equal
+          ~printer:string_of_bool
+          true
+          actual
+
     );
 
     "boundary touching" >:: (fun _ ->
-      (* TODO: Check that collision is detected when the ball just touches the player's edge. *)
-      skip_if true "TODO"
+      (* this test follows the same format as body_overlap and head_collision,
+       with the only difference being ball coordinates to test collision
+       registers when ball is tangent to player hitbox *)
+        let ball : Ball.t = 
+          { x = 38.; y = 0.; vx = 0.; vy = 0. }
+        in
+
+        let actual = 
+          Collision.touches_player
+          ~ball
+          ~player_x:0.
+          ~player_y:0.
+        in
+
+        assert_equal
+          ~printer:string_of_bool
+          true
+          actual
+
     );
 
 
     "collision response" >:: (fun _ ->
-      (* TODO: Check that the ball moves away from the player after a collision. *)
-      skip_if true "TODO"
+      (* simple test to make sure ball is moving from kick function when
+      collision occurs *)
+      let ball : Ball.t =
+        { x = 30.; y = 0.; vx = 0.; vy = 0. }
+      in
+      
+      let actual = Ball.kick ~player_x:0. ~player_vx:0. ball in
+
+      assert_bool "ball position shifts right" (actual.x > ball.x);
+      assert_bool "ball velocity is to the right" (actual.vx > 0.)
     );
   ]
+
 
 let suite =
   "Caml League Tests" >::: [
