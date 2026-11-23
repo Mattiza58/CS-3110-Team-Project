@@ -24,7 +24,18 @@ let ground = -180.
 (*Initial position and it starts with a intial speed too*)
 let initial = { x = 0.; y = -80.;vx = 2.5; vy = 0.;}
 
-(* Move the ball and handle basic bounces. *)
+(** [step ball] calculates the ball's next position and velocity
+    using basic physics and boundary collision handling.
+
+    Gravity affects vertical velocity, while friction gradually
+    reduces horizontal velocity. When the ball reaches a wall
+    or the ground, its position is constrained to the boundary
+    and its velocity is reversed and reduced using restitution.
+    Small ground bounces are stopped to prevent continuous
+    bouncing.
+
+    @param ball The current ball state.
+    @return The updated ball state after one game update. *)
 let step ball =
   let vx = ball.vx *. friction in
   let vy = ball.vy +. gravity in
@@ -51,7 +62,19 @@ let step ball =
   in
   { x; y; vx; vy }
 
-(* when a player touches the ball, the ball is pushed *)
+(** [kick ~player_x ~player_vx ball] applies a simplified
+    collision response when a player touches the ball.
+
+    The ball is repositioned horizontally outside the player's
+    body to prevent overlap. Its horizontal velocity is directed
+    away from the player, with speed influenced by the player's
+    movement and the ball's existing velocity. A small upward
+    velocity is also applied.
+
+    @param player_x The player's current horizontal position.
+    @param player_vx The player's horizontal movement velocity.
+    @param ball The ball state before the collision response.
+    @return The ball state after applying the collision response. *)
 let kick ~player_x ~player_vx ball =
   let direction =
     if ball.x < player_x then -1. else 1.

@@ -7,7 +7,18 @@ let speed = 4.
 let min_x = -482.  
 let max_x = 482.
 
-(** Move player horizontally *)
+
+(** [move_x x direction] calculates the player's next horizontal
+    position based on the given movement direction.
+
+    The player moves left or right at a fixed speed, or remains
+    stationary if [direction] is [Stand]. The resulting position
+    is restricted to the field boundaries.
+
+    @param x The player's current horizontal position.
+    @param direction The direction of movement.
+    @return The updated horizontal position. *)
+
 let move_x x direction =
   let movement =
     match direction with
@@ -30,7 +41,20 @@ let gravity = -0.45
 
 let initial_y = {y = ground; vy = 0.; jump_status = false;}
 
-(*Only jump when key is pressed, and when player are standing on ground*)
+
+(** [update_vertical ~jump_pressed state] updates the player's
+    vertical position and velocity based on jumping and gravity.
+
+    A player can jump only when on the ground and the jump key
+    has not been held continuously. Gravity reduces upward
+    velocity each update, eventually bringing the player back
+    to the ground. The player's position is restricted to
+    ground level when landing.
+
+    @param jump_pressed Whether the jump key is currently pressed.
+    @param state The player's current vertical movement state.
+    @return The updated vertical state, including position,
+    velocity, and jump key status. *)
 (*DO NOT ALTER THIS PART, or there might be serious bugs when pressing keyboard!!*)
 let update_vertical ~jump_pressed state =
   let can_jump =
