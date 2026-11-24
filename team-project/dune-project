@@ -5,7 +5,7 @@
 (generate_opam_files true)
 
 (source
- (github username/reponame))
+ (github Mattiza58/CS-3110-Team-Project))
 
 (authors "Author Name <author@example.com>")
 
@@ -18,9 +18,21 @@
 (package
  (name team-project)
  (allow_empty)
- (synopsis "A short synopsis")
- (description "A longer description")
- (depends ocaml)
+ (synopsis "Caml League: 1v1 Soccer Game")
+ (description "Caml League, is a two-player soccer game where players try to score as many goals as they can within a set time frame. Both players can play on the same device. Player 1 controls with WASD, while Player 2 uses the arrow keys. Our project is developed in OCaml using js_of_ocaml for the web page and the elm_playground library for graphics.")
+ (depends ocaml
+ (elm_playground (= 0.3.6))
+ (elm_playground_web (= 0.3.6)
+ ) js_of_ocaml
+ js_of_ocaml-ppx
+ js_of_ocaml-lwt
+ lwt
+ lwt_ppx
+ cohttp
+ cohttp-lwt-unix
+ conduit-lwt-unix
+ uri
+ (ounit2 :with-test))
  (tags
   ("add topics" "to describe" your project)))
 
